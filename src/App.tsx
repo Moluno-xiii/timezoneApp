@@ -1,35 +1,39 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import React, { useState } from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Homepage from "./components/Homepage";
+import ConvertTime from "./components/ConvertTime";
+import CurrentTime from "./components/currentTime/CurrentTime";
+import CalculateTime from "./components/CalculateTime";
+import PageNotFound from "./components/PageNotFound";
+import AvailableZones from "./components/AvailableZones";
+import Coordinates from "./components/currentTime/Coordinates";
+import IpAddress from "./components/currentTime/IpAddress";
+import AutomaticTimeZone from "./components/currentTime/AutomaticTimeZone";
 import './App.css'
 
-function App() {
-  const [count, setCount] = useState(0)
-
+const App: React.FC = () => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    <BrowserRouter>
+      <Routes>
+        <Route index element={<Homepage />} />
+        <Route path="/conversion" element={<ConvertTime />} />
+        {/* <Route path="/current time" element={<CurrentTime />} >
+          <Route path="coordinates" element={<Coordinates />} />
+        <Route /> */}
+        <Route path="/current time" element= {<CurrentTime />}>
+          <Route path="coordinates" element={<Coordinates />} />
+          <Route path="ip address" element={<IpAddress isLoading = {isLoading} setIsLoading = {setIsLoading}/>} />
+          <Route path="automatically" element={<AutomaticTimeZone />} />
+        </Route>
+      
+        <Route path="/calculate" element={<CalculateTime />} />
+        <Route path="/*" element={<PageNotFound />} />
+        <Route path="/Available zones" element={<AvailableZones />} />
 
-export default App
+      </Routes>
+    </BrowserRouter>
+  );
+};
+
+export default App;
